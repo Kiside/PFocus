@@ -1,7 +1,7 @@
 import './Timer.css'
 import PropTypes from 'prop-types';
 
-function Timer({minutes, onPlay, onChangeInput}) {
+function Timer({onPlay, onStop, onPause ,onChangeInput, timerLabel}) {
     return (
          <div className="input-container">
             <label>Inserisci</label>
@@ -12,26 +12,24 @@ function Timer({minutes, onPlay, onChangeInput}) {
             </input>
             <div>
                 <label className='timer-label'>
-                    {(minutes)}:00
+                    {timerLabel}
                 </label>
             </div>
             <div className="buttons-timer-container">
-                <button>Pause</button>
+                <button onClick={onPause}>Pause</button>
                 <button onClick={onPlay}>Play</button>
-                <button>Stop</button>
+                <button onClick={onStop}>Stop</button>
             </div>
          </div>
     );
 }
 
 Timer.propTypes = {
-    minutes: PropTypes.number.isRequired,
     onPlay: PropTypes.func.isRequired,
+    onStop: PropTypes.func.isRequired,
+    onPause: PropTypes.func.isRequired,
     onChangeInput: PropTypes.func.isRequired,
-};
-
-Timer.defaultProps = {
-    minutes: 0,
+    timerLabel: PropTypes.string.isRequired,
 };
 
 export default Timer;
