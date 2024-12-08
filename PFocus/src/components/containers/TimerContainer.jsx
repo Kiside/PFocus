@@ -15,7 +15,6 @@ function TimerContainer() {
     const [sessionWorkCompleted, setSessionWorkCompleted] = useState(0);
     const [currentSession, setCurrentSession] = useState(SessionTypes.WORK);
 
-    const [timerLabel, setTimerLabel] = useState('25:00');
     const [isPlaying, setIsPlaying] = useState(false);
     const [timer, setTimer] = useState(getMilliseconds(SessionTypes.WORK.duration));
 
@@ -81,7 +80,7 @@ function TimerContainer() {
     }
 
     const handleStop = () => {
-        setTimer(0);
+        setTimer(getMilliseconds(currentSession.duration));
         setIsPlaying(false);
     }
 
@@ -89,20 +88,13 @@ function TimerContainer() {
         setIsPlaying(false);
     }
 
-    const handleChangeInput = (e) => {
-        console.log('change input');
-        let milliseconds = getMilliseconds(e.target.value || 25);
-        setTimer(milliseconds)
-        setTimerLabel(milliseconds);
-    }
-
     
     const getFormattedTimer = (milliseconds) => {
         let total_seconds = parseInt(Math.floor(milliseconds / 1000));
         let total_minutes = parseInt(Math.floor(total_seconds / 60));
 
-        let seconds = parseInt(total_seconds % 60);
-        let minutes = parseInt(total_minutes % 60);
+        let seconds = parseInt(total_seconds % 60).toString().padStart(2,'0');
+        let minutes = parseInt(total_minutes % 60).toString().padStart(2,'0');
 
         return `${minutes}:${seconds}` ;
     }
@@ -119,7 +111,6 @@ function TimerContainer() {
         onPlay={handlePlay}
         onStop={handleStop}
         onPause={handlePause}
-        onChangeInput={(e) => handleChangeInput(e)}
         timerLabel={getFormattedTimer(timer)}/></div>
         
     )
