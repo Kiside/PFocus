@@ -70,9 +70,12 @@ function TimerContainer() {
         setTimer(getMilliseconds(nextSession.duration))
     }
 
-    const handlePlay = () => {
+    const handlePlayOrPause = () => {
         if(isPlaying)
-            return;
+        {
+            handlePause();
+        }
+
         else
         {
             setIsPlaying(true);
@@ -108,10 +111,10 @@ function TimerContainer() {
         <div>
             <button onClick={testTimer}>Test</button>
             <Timer
-        onPlay={handlePlay}
+        onPlayOrPause={handlePlayOrPause}
         onStop={handleStop}
-        onPause={handlePause}
-        timerLabel={getFormattedTimer(timer)}/></div>
+        timerLabel={getFormattedTimer(timer)}
+        isPlaying={isPlaying}/></div>
         
     )
 }
