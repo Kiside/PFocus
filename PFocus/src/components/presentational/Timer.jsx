@@ -1,6 +1,7 @@
 import './Timer.css'
 import PropTypes from 'prop-types';
 import {FaPlay, FaPause, FaEdit, FaStop} from "react-icons/fa";
+import ProgressBar from "../common/ProgressBar.jsx"
 
 function Timer({onPlayOrPause, onStop, timerLabel, isPlaying}) {
 
@@ -8,6 +9,7 @@ function Timer({onPlayOrPause, onStop, timerLabel, isPlaying}) {
     return (
         <div className="timer-container">
             <label className="session-label">FOCUS</label>
+            <ProgressBar></ProgressBar>
             <div className="timer-label-container">
                 <label className='timer-label'>
                     {timerLabel}

@@ -1,0 +1,36 @@
+.progress-bar-wrapper{
+    position: relative;
+    width: 100%;
+    height: 12px;
+}
+
+.progress-bar-background{
+    width: 100%;
+    height: 100%;
+    background-color: #111111;
+    border-radius: 30px;
+    position: absolute;
+    z-index: 1;
+}
+
+.progress-bar{
+    width: 100%;
+    height: 100%;
+    background-color: #eaeaea;
+    border-radius: 30px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    transition: widht 0.5s ease;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-bar-circle{
+    background-color: white;
+    border-radius: 100px;
+    width: 18px;
+    height: 18px;
+    position: absolute;
+}
