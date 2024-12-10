@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import {FaPlay, FaPause, FaEdit, FaStop} from "react-icons/fa";
 import ProgressBar from "../common/ProgressBar.jsx"
 
-function Timer({onPlayOrPause, onStop, timerLabel, isPlaying}) {
+function Timer({onPlayOrPause, onStop, sessionLabel, timerLabel, percentageProgressBar ,isPlaying}) {
 
 
     return (
         <div className="timer-container">
-            <label className="session-label">FOCUS</label>
-            <ProgressBar></ProgressBar>
+            <label className="session-label">{sessionLabel}</label>
+            <ProgressBar progressPercentage={percentageProgressBar}/>
             <div className="timer-label-container">
                 <label className='timer-label'>
                     {timerLabel}
@@ -34,7 +34,9 @@ function Timer({onPlayOrPause, onStop, timerLabel, isPlaying}) {
 Timer.propTypes = {
     onPlayOrPause: PropTypes.func.isRequired,
     onStop: PropTypes.func.isRequired,
+    sessionLabel: PropTypes.string.isRequired,
     timerLabel: PropTypes.string.isRequired,
+    percentageProgressBar: PropTypes.number.isRequired,
     isPlaying: PropTypes.bool.isRequired,
 };
 

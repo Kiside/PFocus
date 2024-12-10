@@ -8,8 +8,11 @@
 }
 
 .session-label{
+    justify-content: center;
+    text-align: center;
     font-size: 128px;
-    font-weight: bold;
+    height: 1.2em;
+    margin-bottom: 4px;
 }
 
 

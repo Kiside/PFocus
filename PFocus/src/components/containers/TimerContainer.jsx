@@ -6,7 +6,7 @@ const getMilliseconds = (minutes) => {
 }
 
 const SessionTypes = Object.freeze({
-    WORK: {label: 'WORK', duration: 25},
+    WORK: {label: 'FOCUS', duration: 25},
     BREAK: {label: 'BREAK', duration: 5},
     LONGBREAK: {label: 'LONGBREAK', duration: 20},
 });
@@ -18,15 +18,24 @@ function TimerContainer() {
     const [isPlaying, setIsPlaying] = useState(false);
     const [timer, setTimer] = useState(getMilliseconds(SessionTypes.WORK.duration));
 
+    const [progressPercentage, setProgressPercentage] = useState(0);
+
     useEffect(() => {
         if(isPlaying)
         {
             if(timer > 0)
             {
+                let totalTime = getMilliseconds(currentSession.duration);
                 let time = timer - 1000;
+                let percentage = ((timer/totalTime) * 100);
+                setProgressPercentage(percentage % 1 === 0 ? percentage : progressPercentage);
+
+
+
                 const timeout = setTimeout(() => {
                 setTimer(time)}
                 , 1000);
+
 
                 return () => clearTimeout(timeout);
             }
@@ -64,6 +73,7 @@ function TimerContainer() {
     setCurrentSession(nextSession);
     setSessionWorkCompleted(updatedWorkSessions);
     setNextSessionTimer(nextSession);
+    setProgressPercentage(100);
 };
 
     const setNextSessionTimer = (nextSession) => {
@@ -84,6 +94,7 @@ function TimerContainer() {
 
     const handleStop = () => {
         setTimer(getMilliseconds(currentSession.duration));
+        setProgressPercentage(100);
         setIsPlaying(false);
     }
 
@@ -103,9 +114,13 @@ function TimerContainer() {
     }
 
     const testTimer = () => {
+
         let newTimer = 2 * 1000;
+        setProgressPercentage((newTimer/ getMilliseconds(currentSession.duration)) * 100)
         setTimer(newTimer);
     }
+
+
 
     return(
         <div>
@@ -113,7 +128,9 @@ function TimerContainer() {
             <Timer
         onPlayOrPause={handlePlayOrPause}
         onStop={handleStop}
+        sessionLabel={currentSession.label}
         timerLabel={getFormattedTimer(timer)}
+        percentageProgressBar={progressPercentage}
         isPlaying={isPlaying}/></div>
         
     )
