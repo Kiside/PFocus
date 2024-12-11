@@ -29,6 +29,7 @@ function TimerContainer() {
         {
             if(timer > 0)
             {
+                console.log(`currentSessionDuration: ${currentSession.duration}`);
                 let totalTime = getMilliseconds(currentSession.duration);
                 let time = timer - 1000;
                 let percentage = ((timer/totalTime) * 100);
@@ -56,13 +57,15 @@ function TimerContainer() {
     let nextSession;
     let updatedWorkSessions = sessionWorkCompleted;
 
-    if (currentSession.label === SessionTypes.FOCUS.label) {
+    if (currentSession.label === sessionsType.FOCUS.label) {
         // Incrementa il conteggio delle sessioni di WORK
         updatedWorkSessions += 1;
 
         if (updatedWorkSessions < 3) {
             // Passa a BREAK se non hai completato 3 sessioni di WORK
             nextSession = sessionsType.BREAK;
+            console.log(`get break duration: ${sessionsType.BREAK.duration}`);
+            console.log(`nextSession duration: ${nextSession.duration}`);
         } else {
             // Passa a LONGBREAK dopo 3 sessioni di WORK
             nextSession = sessionsType.LONGBREAK;
@@ -73,16 +76,14 @@ function TimerContainer() {
         nextSession = sessionsType.FOCUS;
     }
 
+
+
     // Aggiorna lo stato in modo sicuro
     setCurrentSession(nextSession);
     setSessionWorkCompleted(updatedWorkSessions);
-    setNextSessionTimer(nextSession);
+    setTimer(getMilliseconds(nextSession.duration));
     setProgressPercentage(100);
 };
-
-    const setNextSessionTimer = (nextSession) => {
-        setTimer(getMilliseconds(nextSession.duration))
-    }
 
     const handlePlayOrPause = () => {
         if(isPlaying)
@@ -97,6 +98,8 @@ function TimerContainer() {
     }
 
     const handleStop = () => {
+        if(!isPlaying)
+            return;
         setTimer(getMilliseconds(currentSession.duration));
         setProgressPercentage(100);
         setIsPlaying(false);
@@ -128,16 +131,27 @@ function TimerContainer() {
         setTimer(newTimer);
     }
 
-    const onSaveDurationSessions = (type, duration) => {
-        setSessionsType((prev) => ({
-            ...prev,
-            [type]: {
-                ...prev[type],
-                duration: duration,
-            },
-        }));
+    const onSaveDurationSessions = (updatedSessions) => {
 
-        handleEdit();
+        const updateSessionsType = {
+            ...sessionsType,
+            ...updatedSessions,
+        };
+
+
+        setSessionsType(updateSessionsType);
+
+        if(updateSessionsType[currentSession.label])
+        {
+            const updateCurrentSession = {
+                ...currentSession,
+                duration: updateSessionsType[currentSession.label].duration,
+            };
+            console.log(`updateCurrentSession: ${updatedSessions.label} - ${updatedSessions.duration}`);
+            setCurrentSession(updateCurrentSession);
+            let milliseconds = getMilliseconds(updateCurrentSession.duration);
+            setTimer(milliseconds);
+        }
     }
 
     return(
@@ -155,6 +169,7 @@ function TimerContainer() {
                 <SessionTypesModal
                     sessionTypesDuration={sessionsType}
                     onSave={onSaveDurationSessions}
+                    onClose={handleEdit}
                 />
             )}
 

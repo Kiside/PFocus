@@ -1,14 +1,22 @@
 import './Modal.css';
 import PropTypes from 'prop-types';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
-function SessionTypesModal({sessionTypesDuration, onSave}) {
+function SessionTypesModal({sessionTypesDuration, onSave, onClose}) {
 
     const [localSessionTypesDuration, setLocalSessionTypesDuration] = useState({
         FOCUS: sessionTypesDuration.FOCUS.duration,
         BREAK: sessionTypesDuration.BREAK.duration,
         LONGBREAK: sessionTypesDuration.LONGBREAK.duration,
     });
+
+    useEffect(() => {
+        setLocalSessionTypesDuration({
+            FOCUS: sessionTypesDuration.FOCUS.duration,
+            BREAK: sessionTypesDuration.BREAK.duration,
+            LONGBREAK: sessionTypesDuration.LONGBREAK.duration,
+        });
+    }, [sessionTypesDuration]);
 
     const handleChangeInput = (type, value) => {
         setLocalSessionTypesDuration((prev) => ({
@@ -18,16 +26,27 @@ function SessionTypesModal({sessionTypesDuration, onSave}) {
     }
 
     const handleSave = () => {
+
+        const updatedSessions = {};
+
         Object.keys(localSessionTypesDuration).forEach((type) => {
-            onSave(type, parseInt(localSessionTypesDuration[type], 10));
+            updatedSessions[type] = {
+                ...sessionTypesDuration[type],
+                duration: parseInt(localSessionTypesDuration[type], 10),
+            };
         });
+
+        console.log(`handleSave: ${updatedSessions.FOCUS.duration}`);
+
+        onSave(updatedSessions);
+        onClose();
     }
 
     return(
     <div className="overlay">
         <div className="modal">
             {Object.keys(localSessionTypesDuration).map((type) =>(
-                <div key={{type}}>
+                <div key={type}>
                     <input
                     type="number"
                     value={localSessionTypesDuration[type]}
@@ -44,6 +63,7 @@ function SessionTypesModal({sessionTypesDuration, onSave}) {
 SessionTypesModal.propTypes = {
     sessionTypesDuration: PropTypes.object.isRequired,
     onSave: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
 };
 
 export default SessionTypesModal;
