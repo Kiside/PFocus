@@ -1,6 +1,6 @@
 class UnspashService {
     constructor() {
-        this.apiKey = import.meta.env.REACT_APP_UNSPLASH_API_KEY;
+        this.apiKey = import.meta.env.VITE_REACT_APP_UNSPLASH_API_KEY;
         this.baseUrl = "https://api.unsplash.com";
     }
 
