@@ -1,19 +1,14 @@
-import UnsplashService from "../../services/UnsplashService.jsx";
+import '../common/Modal.css';
 
+function ImageSearch() {
 
-const ImageSearchContainer = () => {
-    const [images, setImages] = useState([]);
-
-    const [query, setQuery] = useState("");
-
-    const fetchImages = async (newQuery) => {
-        const results = await UnsplashService.getImages(newQuery);
-        setImages(results);
-    };
-
-
-
+    return(
+        <div className="overlay">
+            <div className="modal">
+            </div>
+        </div>
+    );
 
 }
 
-export default ImageSearchContainer;
+export default ImageSearch;
