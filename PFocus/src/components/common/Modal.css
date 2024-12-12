@@ -20,4 +20,10 @@
     width: 400px;
     height: 100px;
     text-aling: center;
+    overflow: hidden;
+}
+
+.modal[data-size="long"]{
+    height: 450px;
+    width: 500px;
 }
