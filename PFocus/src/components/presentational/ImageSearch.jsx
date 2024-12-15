@@ -2,7 +2,7 @@ import '../common/Modal.css';
 import './ImageSearch.css';
 import PropTypes from "prop-types";
 
-function ImageSearch({onClick, images}) {
+function ImageSearch({onClick, images, onImageClick}) {
 
     return(
         <div className="overlay">
@@ -12,7 +12,7 @@ function ImageSearch({onClick, images}) {
                 </div>
                 <div className="images-container">
                     {images.map((image) => (
-                        <div className="image" key = {image.id}>
+                        <div className="image" key = {image.id} onClick={() => onImageClick(image)}>
                             <img src={image.urls.small || "image"}/>
                         </div>
                         ))}
@@ -27,6 +27,7 @@ function ImageSearch({onClick, images}) {
 ImageSearch.propTypes = {
     onClick: PropTypes.func.isRequired,
     images: PropTypes.array.isRequired,
+    onImageClick: PropTypes.func.isRequired,
 }
 
 export default ImageSearch;

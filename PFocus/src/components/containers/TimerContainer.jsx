@@ -1,6 +1,7 @@
 import { useEffect, useState} from 'react';
 import Timer from '../presentational/Timer.jsx'
 import SessionTypesModal from "../common/SessionTypesModal.jsx";
+import ImageSearchContainer from "./ImageSearchContainer.jsx";
 
 const getMilliseconds = (minutes) => {
     return isNaN(minutes) ? 25 : minutes * 60 * 1000;
@@ -18,6 +19,8 @@ function TimerContainer() {
     const [currentSession, setCurrentSession] = useState(sessionsType.FOCUS);
 
     const [showSessionTypesModal, setShowSessionTypesModal] = useState(false);
+    const [showImageSearcherModal, setShowImageSearcherModal] = useState(false);
+    const [background, setBackground] = useState("");
 
     const [isPlaying, setIsPlaying] = useState(false);
     const [timer, setTimer] = useState(getMilliseconds(sessionsType.FOCUS.duration));
@@ -131,6 +134,14 @@ function TimerContainer() {
         setTimer(newTimer);
     }
 
+    const tempBackground = () => {
+        setShowImageSearcherModal(!showImageSearcherModal);
+    }
+
+    const handleSetBackground = (image) => {
+        setBackground(image.urls.full);
+    }
+
     const onSaveDurationSessions = (updatedSessions) => {
 
         const updateSessionsType = {
@@ -155,8 +166,9 @@ function TimerContainer() {
     }
 
     return(
-        <div>
+        <div  style={{ backgroundImage: `url(${background})`, backgroundSize: "cover", backgroundPosition: "center", minHeight: "100vh" }}>
             <button onClick={testTimer}>Test</button>
+            <button onClick={tempBackground}>Background</button>
             <Timer
         onPlayOrPause={handlePlayOrPause}
         onStop={handleStop}
@@ -172,7 +184,10 @@ function TimerContainer() {
                     onClose={handleEdit}
                 />
             )}
-
+            {showImageSearcherModal && (
+                <ImageSearchContainer
+                onSetBackground={handleSetBackground}/>
+            )}
         </div>
     )
 }
