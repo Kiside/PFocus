@@ -1,14 +1,32 @@
 import './App.css'
 import TimerContainer from './components/containers/TimerContainer.jsx';
-import ImageSearchContainer from "./components/containers/ImageSearchContainer.jsx";
+import {BackgroundProvider, useBackground} from "./components/contexts/BackgroundContext.jsx";
+import {useEffect} from "react";
 
 function App() {
 
   return (
-    <>
-      <TimerContainer></TimerContainer>
-    </>
+    <BackgroundProvider>
+        <MainAppContent/>
+    </BackgroundProvider>
   );
+}
+
+function MainAppContent() {
+    const { background } = useBackground();
+
+    useEffect(() => {
+        if(background){
+            document.body.classList.add("background");
+            document.body.style.setProperty("--background-image", `url(${background}`);
+        }
+        else {
+            document.body.classList.remove("background");
+            document.body.style.removeProperty("--background-image");
+        }
+    }, [background]);
+
+    return <TimerContainer/>;
 }
 
 export default App

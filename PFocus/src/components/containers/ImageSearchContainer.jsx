@@ -1,13 +1,16 @@
 import UnsplashService from "../../services/UnsplashService.jsx";
 import ImageSearch from "../presentational/ImageSearch.jsx";
 import {useState} from "react";
+import {useBackground} from "../contexts/BackgroundContext.jsx";
 import PropTypes from "prop-types";
+import Timer from "../presentational/Timer.jsx";
 
 
-function ImageSearchContainer({onSetBackground}) {
+function ImageSearchContainer({ onImageClick }) {
 
     const [images, setImages] = useState([]);
     //const [query, setQuery] = useState("");
+    const {setBackground} = useBackground();
 
     const fetchImages = async (newQuery) => {
         const results = await UnsplashService.getImages(newQuery);
@@ -21,7 +24,8 @@ function ImageSearchContainer({onSetBackground}) {
 
     const handleImageClick = (image) =>
     {
-        onSetBackground(image);
+        setBackground(image.urls.full);
+        onImageClick();
     }
 
     const handleClick = () =>
@@ -37,10 +41,8 @@ function ImageSearchContainer({onSetBackground}) {
     </div>);
 
 }
+
 ImageSearchContainer.propTypes = {
-    onSetBackground: PropTypes.func.isRequired,
-};
-
-
-
+    onImageClick: PropTypes.func.isRequired,
+}
 export default ImageSearchContainer;

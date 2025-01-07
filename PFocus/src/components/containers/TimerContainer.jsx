@@ -20,7 +20,6 @@ function TimerContainer() {
 
     const [showSessionTypesModal, setShowSessionTypesModal] = useState(false);
     const [showImageSearcherModal, setShowImageSearcherModal] = useState(false);
-    const [background, setBackground] = useState("");
 
     const [isPlaying, setIsPlaying] = useState(false);
     const [timer, setTimer] = useState(getMilliseconds(sessionsType.FOCUS.duration));
@@ -138,10 +137,6 @@ function TimerContainer() {
         setShowImageSearcherModal(!showImageSearcherModal);
     }
 
-    const handleSetBackground = (image) => {
-        setBackground(image.urls.full);
-    }
-
     const onSaveDurationSessions = (updatedSessions) => {
 
         const updateSessionsType = {
@@ -166,7 +161,7 @@ function TimerContainer() {
     }
 
     return(
-        <div  style={{ backgroundImage: `url(${background})`, backgroundSize: "cover", backgroundPosition: "center", minHeight: "100vh" }}>
+        <div>
             <button onClick={testTimer}>Test</button>
             <button onClick={tempBackground}>Background</button>
             <Timer
@@ -186,7 +181,7 @@ function TimerContainer() {
             )}
             {showImageSearcherModal && (
                 <ImageSearchContainer
-                onSetBackground={handleSetBackground}/>
+                onImageClick={() => {setShowImageSearcherModal(!showImageSearcherModal)}}/>
             )}
         </div>
     )
