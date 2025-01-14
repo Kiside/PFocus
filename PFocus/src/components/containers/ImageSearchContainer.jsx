@@ -3,7 +3,6 @@ import ImageSearch from "../presentational/ImageSearch.jsx";
 import {useState} from "react";
 import {useBackground} from "../contexts/BackgroundContext.jsx";
 import PropTypes from "prop-types";
-import Timer from "../presentational/Timer.jsx";
 
 
 function ImageSearchContainer({ onImageClick }) {

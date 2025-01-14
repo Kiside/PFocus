@@ -26,7 +26,10 @@ function MainAppContent() {
         }
     }, [background]);
 
-    return <TimerContainer/>;
+    return <div className="mainContainer">
+        <TimerContainer/>
+        <div><button>Bottone</button></div>
+        </div>;
 }
 
 export default App

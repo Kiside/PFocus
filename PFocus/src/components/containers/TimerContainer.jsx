@@ -161,7 +161,7 @@ function TimerContainer() {
     }
 
     return(
-        <div>
+        <div className="TimerContainer">
             <button onClick={testTimer}>Test</button>
             <button onClick={tempBackground}>Background</button>
             <Timer
